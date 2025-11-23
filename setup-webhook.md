@@ -2,7 +2,7 @@
 description: Set up webhook integration for external service triggers
 ---
 
-You are helping the user set up webhook integration for their DAITA agent or workflow. Webhooks allow external services to trigger agent execution.
+You are helping the user set up webhook integration for their Daita agent or workflow. Webhooks allow external services to trigger agent execution.
 
 ## Information Gathering
 
@@ -12,8 +12,8 @@ You are helping the user set up webhook integration for their DAITA agent or wor
    - What event should trigger it? (e.g., "git push", "new Slack message", "payment received")
 
 2. **Verify project setup**:
-   - Check if we're in a DAITA project directory
-   - Run `daita status` to see available agents/workflows
+   - Check if we're in a Daita project directory
+   - Run `Daita status` to see available agents/workflows
    - Confirm the target agent/workflow exists
 
 ## Webhook Configuration
@@ -48,8 +48,8 @@ You are helping the user set up webhook integration for their DAITA agent or wor
      ```
    - **Custom webhook**: Ask user what fields they want to extract from the payload
 
-5. **Update daita-project.yaml**:
-   - Read the current `daita-project.yaml` file
+5. **Update Daita-project.yaml**:
+   - Read the current `Daita-project.yaml` file
    - Add webhook configuration to the appropriate agent or workflow:
    ```yaml
    agents:
@@ -78,21 +78,21 @@ You are helping the user set up webhook integration for their DAITA agent or wor
 
 7. **Deploy the webhook**:
    - Explain that webhooks only work in production
-   - Check if `DAITA_API_KEY` is set
-   - Run `daita push` to deploy with new webhook configuration
+   - Check if `Daita_API_KEY` is set
+   - Run `Daita push` to deploy with new webhook configuration
    - Monitor deployment for success
 
 8. **Get webhook URL**:
-   - Run `daita webhook list` to display all webhook URLs
+   - Run `Daita webhook list` to display all webhook URLs
    - Find and highlight the newly created webhook URL
-   - Format: `https://api.daita-tech.io/api/v1/webhooks/trigger/{org_id}/{webhook_slug}`
+   - Format: `https://api.Daita-tech.io/api/v1/webhooks/trigger/{org_id}/{webhook_slug}`
 
 ## Testing
 
 9. **Provide test instructions**:
    - Show how to test the webhook with curl:
    ```bash
-   curl -X POST 'https://api.daita-tech.io/api/v1/webhooks/trigger/{org_id}/{webhook_slug}' \
+   curl -X POST 'https://api.Daita-tech.io/api/v1/webhooks/trigger/{org_id}/{webhook_slug}' \
         -H 'Content-Type: application/json' \
         -d '{"sample": "payload"}'
    ```
@@ -107,7 +107,7 @@ You are helping the user set up webhook integration for their DAITA agent or wor
 ## Verification
 
 11. **Monitor webhook execution**:
-    - Suggest running `daita logs production` after testing to see execution
+    - Suggest running `Daita logs production` after testing to see execution
     - Show how to verify the webhook was triggered successfully
     - Help diagnose if webhook doesn't fire as expected
 
@@ -160,7 +160,7 @@ field_mapping:
 ```
 
 **Important**:
-- Webhooks require production deployment (DAITA_API_KEY needed)
+- Webhooks require production deployment (Daita_API_KEY needed)
 - Test thoroughly before connecting to production services
 - Use field mapping to extract only needed data
 - Webhook URLs are organization-specific and secure
