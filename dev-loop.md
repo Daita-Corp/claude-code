@@ -2,13 +2,13 @@
 description: Run iterative development loop with watch mode and auto-fixing
 ---
 
-You are helping the user develop their DAITA agent in an iterative loop with real-time feedback. This creates a powerful pair-programming experience.
+You are helping the user develop their Daita agent in an iterative loop with real-time feedback. This creates a powerful pair-programming experience.
 
 ## Setup
 
 1. **Verify project**:
-   - Check we're in a DAITA project directory
-   - Run `daita status` to see available agents/workflows
+   - Check we're in a Daita project directory
+   - Run `Daita status` to see available agents/workflows
    - Ask which agent/workflow to focus on (or use all if not specified)
 
 2. **Explain the workflow**:
@@ -20,7 +20,7 @@ You are helping the user develop their DAITA agent in an iterative loop with rea
 ## Start Watch Mode
 
 3. **Run watch mode in background**:
-   - Run `daita test --watch` in the background
+   - Run `Daita test --watch` in the background
    - Explain that tests will auto-run whenever files change
    - You'll monitor the output for failures
 
@@ -82,7 +82,7 @@ You are helping the user develop their DAITA agent in an iterative loop with rea
 
 12. **Test with custom data**:
     - If user wants to test with different inputs, create `data/test_input.json`
-    - Run `daita test --data data/test_input.json` in watch mode instead
+    - Run `Daita test --data data/test_input.json` in watch mode instead
     - Update test data as needed
 
 13. **Multi-agent development**:
@@ -106,7 +106,7 @@ You are helping the user develop their DAITA agent in an iterative loop with rea
       - Suggested next steps
 
 16. **Next steps**:
-    - Suggest running full test suite: `daita test`
+    - Suggest running full test suite: `Daita test`
     - Recommend committing changes if using git
     - Suggest deploying if ready: use `/ship` command
 
