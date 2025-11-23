@@ -2,7 +2,7 @@
 description: Debug production deployment issues with logs and diagnostics
 ---
 
-You are helping the user debug issues with their deployed DAITA agents or workflows. Be systematic and thorough:
+You are helping the user debug issues with their deployed Daita agents or workflows. Be systematic and thorough:
 
 ## Information Gathering
 
@@ -12,18 +12,18 @@ You are helping the user debug issues with their deployed DAITA agents or workfl
    - Which agent/workflow is affected?
 
 2. **Verify API access**:
-   - Check if `DAITA_API_KEY` is set
+   - Check if `Daita_API_KEY` is set
    - If not, explain they need it to access production logs and STOP
 
 3. **Check deployment status**:
-   - Run `daita status` to see current deployment state
-   - Run `daita deployments list --limit 5` to see recent deployments
+   - Run `Daita status` to see current deployment state
+   - Run `Daita deployments list --limit 5` to see recent deployments
    - Identify which deployment is currently active
 
 ## Log Analysis
 
 4. **Fetch production logs**:
-   - Run `daita logs production` to get recent execution logs
+   - Run `Daita logs production` to get recent execution logs
    - Look for error messages, stack traces, or anomalies
    - If logs are too verbose, ask user which timeframe or agent to focus on
 
@@ -39,12 +39,12 @@ You are helping the user debug issues with their deployed DAITA agents or workfl
 ## Diagnosis
 
 6. **Local reproduction** (if possible):
-   - Run `daita test [agent-name]` locally to see if the issue reproduces
+   - Run `Daita test [agent-name]` locally to see if the issue reproduces
    - Compare local vs production behavior
    - This helps identify environment-specific issues
 
 7. **Check configuration**:
-   - Read `daita-project.yaml` to verify agent configuration
+   - Read `Daita-project.yaml` to verify agent configuration
    - Check if `.env` file has all required API keys
    - Verify webhook configurations if applicable
 
@@ -59,12 +59,12 @@ You are helping the user debug issues with their deployed DAITA agents or workfl
      - Add missing API keys to `.env`
      - Fix code errors in agent files
      - Update dependencies in `requirements.txt`
-     - Adjust configuration in `daita-project.yaml`
+     - Adjust configuration in `Daita-project.yaml`
    - Ask if user wants you to apply the fixes
 
 10. **Apply fixes and redeploy**:
     - If user agrees, make the necessary code/config changes
-    - Run `daita test` to verify fixes work locally
+    - Run `Daita test` to verify fixes work locally
     - Use `/ship` command to redeploy safely
 
 ## Alternative Diagnostics
@@ -77,7 +77,7 @@ You are helping the user debug issues with their deployed DAITA agents or workfl
 
 12. **Rollback option**:
     - If the issue started with a recent deployment, suggest rollback
-    - Show command: `daita deployments rollback <previous-deployment-id>`
+    - Show command: `Daita deployments rollback <previous-deployment-id>`
 
 ## Summary
 
