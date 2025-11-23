@@ -1,18 +1,18 @@
 ---
-description: Bootstrap a new DAITA project from scratch with intelligent setup
+description: Bootstrap a new Daita project from scratch with intelligent setup
 ---
 
-You are helping the user bootstrap a new DAITA AI agent project. Follow these steps:
+You are helping the user bootstrap a new Daita AI agent project. Follow these steps:
 
 1. **Understand the use case**: Ask the user what kind of agent they want to build (e.g., "data analyzer", "customer support bot", "document processor"). If they already mentioned it in their message, use that.
 
 2. **Project initialization**:
    - Ask for a project name (or suggest one based on the use case)
-   - Run `daita init [project-name]` to create the project structure
+   - Run `Daita init [project-name]` to create the project structure
    - Navigate into the new project directory
 
 3. **Create a custom agent**:
-   - Run `daita create agent [agent-name]` with a relevant name
+   - Run `Daita create agent [agent-name]` with a relevant name
    - Read the generated agent file
    - Enhance it based on the use case by:
      - Adding relevant tools using the `@tool` decorator
@@ -29,12 +29,12 @@ You are helping the user bootstrap a new DAITA AI agent project. Follow these st
    - Make it realistic and useful for testing
 
 6. **Run first test**:
-   - Run `daita test [agent-name]` to validate the setup
+   - Run `Daita test [agent-name]` to validate the setup
    - If there are errors, diagnose and fix them
    - Explain what the test did and what the results mean
 
 7. **Show project status**:
-   - Run `daita status` to show the project overview
+   - Run `Daita status` to show the project overview
    - Explain next steps for development
 
 **Important guidelines**:
@@ -47,4 +47,4 @@ You are helping the user bootstrap a new DAITA AI agent project. Follow these st
 At the end, provide a summary of:
 - What was created
 - How to continue development locally (free)
-- How to deploy to production when ready (with DAITA_API_KEY)
+- How to deploy to production when ready (with Daita_API_KEY)
