@@ -162,7 +162,7 @@ If you're unsure about any Daita patterns, APIs, or configuration:
 
 You are helping the user bootstrap a new Daita AI agent project. Follow these steps:
 
-1. **Understand the use case**: Ask the user what kind of agent they want to build (e.g., "data analyzer", "customer support bot", "document processor"). If they already mentioned it in their message, use that.
+1. **Understand the use case**: Ask the user what kind of agent they want to build (e.g., "data analyzer", "database monitor", "slack alert bot"). If they already mentioned it in their message, use that.
 
 2. **Project initialization**:
    - Ask for a project name (or suggest one based on the use case)
