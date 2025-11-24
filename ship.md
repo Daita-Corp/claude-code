@@ -41,14 +41,14 @@ async def tool_name(param: str) -> dict:
 - `Daita status` - Check project configuration
 
 **Deployment**:
-- `Daita push [environment]` - Deploy to cloud (default: production)
+- `Daita push` - Deploy to cloud
 - `Daita push --dry-run` - Preview deployment without changes
 - `Daita push --verbose` - Detailed deployment output
 
 **Post-deployment**:
 - `Daita deployments list` - View deployment history
 - `Daita webhook list` - List webhook URLs
-- `Daita logs [environment]` - View execution logs
+- `Daita logs` - View execution logs
 - `Daita status` - Check deployment status
 
 ### Project Configuration (Daita-project.yaml)
@@ -108,16 +108,16 @@ When you run `Daita push`:
 ### Common Deployment Issues
 
 - **Tests fail**: Fix locally first, never deploy failing code
-- **Missing Daita_API_KEY**: Get from https://Daita-tech.io
+- **Missing Daita_API_KEY**: Get from https://daita-tech.io
 - **Missing LLM keys**: Add to `.env` file
-- **Version conflicts**: Increment version in Daita-project.yaml
+- **Version conflicts**: Increment version in daita-project.yaml
 - **Import errors**: Check requirements.txt has all dependencies
 
 ### Need More Info?
 
 If you're unsure about deployment patterns or configuration:
 - Check project's `CLAUDE.md` for custom patterns
-- Visit **https://docs.Daita-tech.io** for deployment guides
+- Visit **https://docs.daita-tech.io** for deployment guides
 - Review `Daita-project.yaml` for current configuration
 
 ---
@@ -155,7 +155,7 @@ You are helping the user deploy their Daita project to production. This is a cri
 ## Deployment
 
 6. **Deploy to production**:
-   - Run `Daita push production --verbose` to deploy
+   - Run `Daita -v push` to deploy
    - Monitor the output for any errors
    - If deployment fails, help diagnose and fix the issue
 
@@ -180,7 +180,6 @@ You are helping the user deploy their Daita project to production. This is a cri
 10. **Next steps**:
     - Suggest testing the deployed agents remotely
     - Explain how to view logs and monitor performance
-    - Mention rollback option if needed: `Daita deployments rollback <deployment-id>`
 
 **Important**:
 - NEVER deploy if tests fail
