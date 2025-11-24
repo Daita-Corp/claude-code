@@ -2,6 +2,219 @@
 description: Run iterative development loop with watch mode and auto-fixing
 ---
 
+## Daita Framework Context
+
+You are working with the **Daita AI Agents Framework** in iterative development mode - acting as an AI pair programmer.
+
+### Agent Development Patterns
+
+**SubstrateAgent** - The agent class you'll be developing:
+```python
+from Daita import SubstrateAgent
+from Daita.core.tools import tool
+
+@tool
+async def my_tool(param: str) -> dict:
+    '''Tool description for the LLM'''
+    # Tool implementation
+    return {"result": param}
+
+def create_agent():
+    '''Required factory function for Daita CLI'''
+    agent = SubstrateAgent(
+        name="Agent Name",
+        model="gpt-4o-mini",
+        prompt="System prompt describing agent's role"
+    )
+    agent.register_tool(my_tool)
+    return agent
+```
+
+**Key Requirements**:
+- Every agent file must have a `create_agent()` function
+- Tools must use `@tool` decorator
+- Tools must be async functions
+- Tools must have docstrings (LLM uses them)
+- Agent must be started/stopped properly
+
+### Testing Framework
+
+**CLI Testing Commands**:
+- `Daita test` - Test all agents and workflows
+- `Daita test [agent-name]` - Test specific agent
+- `Daita test --watch` - Watch mode (auto-rerun on changes)
+- `Daita test --data file.json` - Test with custom data
+- `Daita test --verbose` - Detailed test output
+
+**Test Execution Flow**:
+1. Daita CLI imports agent file
+2. Calls `create_agent()` to get agent instance
+3. Calls `agent.start()` to initialize
+4. Calls `agent.run_detailed(test_prompt)` with test data
+5. Validates response format and execution
+6. Calls `agent.stop()` to cleanup
+7. Reports results (pass/fail, time, cost)
+
+**What Tests Check**:
+- Agent file has `create_agent()` function
+- Agent can be instantiated without errors
+- Agent can start/stop properly
+- Agent can execute `run()` and `run_detailed()` APIs
+- Tools are registered correctly
+- No import errors or missing dependencies
+
+### Common Development Errors
+
+**Import Errors**:
+```python
+# Error: ModuleNotFoundError: No module named 'pandas'
+# Fix: Add to requirements.txt
+pandas>=2.0.0
+```
+
+**Missing create_agent()**:
+```python
+# Error: No create_agent() function found
+# Fix: Add factory function
+def create_agent():
+    return SubstrateAgent(name="My Agent", model="gpt-4o-mini", prompt="...")
+```
+
+**Tool Registration Issues**:
+```python
+# Error: Tool not registered
+# Fix: Register after creating agent
+agent = SubstrateAgent(...)
+agent.register_tool(my_tool)  # Don't forget this!
+```
+
+**Missing Tool Decorator**:
+```python
+# Error: Function is not a valid tool
+# Fix: Add @tool decorator
+from Daita.core.tools import tool
+
+@tool  # Required!
+async def my_tool(param: str) -> dict:
+    return {"result": param}
+```
+
+**API Key Missing**:
+```python
+# Error: OpenAI API key not found
+# Fix: Add to .env file
+OPENAI_API_KEY=sk-...
+```
+
+**Async/Await Issues**:
+```python
+# Error: object dict can't be used in 'await' expression
+# Fix: Make tool functions async
+@tool
+async def my_tool():  # Must be async
+    return {"result": "value"}
+```
+
+### Project Structure During Development
+
+```
+my-project/
+├── Daita-project.yaml    # Project config (don't modify during dev-loop)
+├── agents/               # Your agent files (modify these)
+│   ├── my_agent.py      # Agent being developed
+│   └── helper.py        # Optional: helper modules
+├── workflows/            # Workflow files
+├── data/                 # Test data
+│   └── test_input.json  # Custom test data
+├── .env                  # API keys
+├── requirements.txt      # Dependencies (add new ones here)
+└── tests/               # Optional: Custom tests
+```
+
+### Watch Mode Behavior
+
+**How Watch Mode Works**:
+1. Runs initial test of all agents
+2. Monitors file changes in `agents/` and `workflows/` directories
+3. When file changes detected, waits 1 second for file write to complete
+4. Re-runs tests automatically
+5. Reports results (pass/fail, errors)
+6. Continues watching until Ctrl+C
+
+**What Triggers Retest**:
+- Saving agent files (`.py` in `agents/`)
+- Saving workflow files (`.py` in `workflows/`)
+- Modifying `requirements.txt` (may need manual pip install)
+- Modifying `.env` file (API key changes)
+
+**What Doesn't Trigger Retest**:
+- Changing `Daita-project.yaml` (config changes need manual retest)
+- Modifying files outside `agents/` and `workflows/`
+- Saving files in `data/` directory
+
+### Development Workflow
+
+**Typical Flow**:
+1. Start with failing or incomplete agent
+2. Run `Daita test --watch` to start watch mode
+3. Make code changes (manually or via Claude)
+4. Save file → watch mode detects → auto-retests
+5. See results → diagnose → fix → repeat
+6. When tests pass, stop watch mode
+7. Deploy with `/ship` command
+
+**Best Practices**:
+- Fix one issue at a time (don't batch changes)
+- Wait for test results before making next change
+- Read error messages carefully (they're usually accurate)
+- Test locally before deploying to production
+- Keep test iterations fast (optimize slow tools)
+
+### Error Diagnosis Strategy
+
+**When test fails, check in order**:
+1. **Import errors** → Add to `requirements.txt`
+2. **Syntax errors** → Fix Python syntax
+3. **create_agent() missing** → Add factory function
+4. **Tool registration** → Call `agent.register_tool()`
+5. **Tool decorator** → Add `@tool` decorator
+6. **API keys** → Add to `.env` file
+7. **Tool execution** → Debug tool logic
+8. **Agent logic** → Adjust prompt or tool implementation
+
+### Performance Tips
+
+**Keep Tests Fast**:
+- Use smaller models for development (`gpt-4o-mini` vs `gpt-4`)
+- Mock external API calls when possible
+- Cache results that don't change
+- Avoid loading large datasets in tools
+- Use `run()` instead of `run_detailed()` when metadata not needed
+
+**Optimize Tool Execution**:
+```python
+@tool
+async def fast_tool(data: list) -> dict:
+    '''Process data quickly'''
+    # Bad: Loading large model every call
+    # model = load_large_model()
+
+    # Good: Use simple computation
+    return {"count": len(data), "sum": sum(data)}
+```
+
+### Need More Info?
+
+If you're unsure about agent patterns, tool implementation, or testing:
+- Check project's `CLAUDE.md` for custom patterns
+- Visit **https://docs.Daita-tech.io/development** for dev guides
+- Read existing agent files in `agents/` directory
+- Review `Daita-project.yaml` for configuration
+
+---
+
+## Command Instructions
+
 You are helping the user develop their Daita agent in an iterative loop with real-time feedback. This creates a powerful pair-programming experience.
 
 ## Setup
@@ -150,4 +363,5 @@ Fix: Increase timeout in AgentConfig or optimize tool execution
 - Don't apply multiple fixes at once - iterate one change at a time
 - Make sure user understands what you're doing and why
 - Keep the feedback loop tight and fast
+- Follow Daita agent development patterns
 - Have fun - this should feel collaborative and productive!
