@@ -106,8 +106,8 @@ my-project/
 - `Daita status` - Show project status
 
 **Cloud Deployment (Requires Daita_API_KEY)**:
-- `Daita push [environment]` - Deploy to production
-- `Daita logs [environment]` - View execution logs
+- `Daita push` - Deploy to production
+- `Daita logs` - View execution logs
 - `Daita webhook list` - List webhook URLs
 - `Daita deployments list` - View deployment history
 
@@ -166,7 +166,7 @@ You are helping the user bootstrap a new Daita AI agent project. Follow these st
 
 2. **Project initialization**:
    - Ask for a project name (or suggest one based on the use case)
-   - Run `Daita init [project-name]` to create the project structure
+   - Run `Daita init [project-name]` to create the project structure or skip straight to `Daita create agent [agent-name]`.
    - Navigate into the new project directory
 
 3. **Create a custom agent**:
