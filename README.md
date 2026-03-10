@@ -1,335 +1,164 @@
 # Daita Claude Code Commands
 
-Supercharge your Daita development workflow with intelligent Claude Code slash commands. These commands turn Claude into an AI DevOps engineer that understands your entire agent development lifecycle.
+Supercharge your Daita development workflow with intelligent Claude Code slash commands. These commands turn Claude into an AI DevOps engineer that understands your entire agent development lifecycle — from bootstrapping a project to debugging production.
 
 ## What Are These Commands?
 
-These are custom [Claude Code](https://claude.com/code) slash commands that provide intelligent, multi-step automation for common Daita workflows. Instead of running multiple CLI commands manually, you can ask Claude to handle entire workflows - from project setup to production deployment.
-
-## Features
-
-- **Intelligent Automation**: Multi-step workflows with smart error handling
-- **Safety-First**: Pre-flight checks prevent production issues
-- **Context-Aware**: Claude understands your project structure and configuration
-- **Production-Ready**: Deploy, debug, and monitor with confidence
-- **Pair Programming**: Iterative development with real-time feedback
+Custom [Claude Code](https://claude.ai/claude-code) slash commands and skills that automate common Daita workflows. Instead of running multiple CLI commands manually or writing boilerplate from scratch, Claude handles entire workflows with context-aware intelligence.
 
 ## Available Commands
 
-### `/quickstart` - Bootstrap New Projects
-Create a complete Daita project from scratch with custom agents tailored to your use case.
+| Command | What it does | Requires project? | Requires DAITA_API_KEY? |
+|---|---|---|---|
+| `/quickstart` | Bootstrap a new Daita project | No | No |
+| `/ship` | Deploy to production with safety checks | Yes | Yes |
+| `/dev-loop` | Watch mode + auto-fixing pair programmer | Yes | No |
+| `/setup-webhook` | Configure external service webhooks | Yes | Yes |
+| `/debug-deployment` | Diagnose production issues from logs | Yes | Yes |
+| `/add-plugin` | Add a database/API/service plugin to an agent | Yes | No |
+| `/create-workflow` | Build a multi-agent workflow | Yes | No |
+| `/add-provider` | Switch or add an LLM provider | Yes | No |
+| `/setup-memory` | Add persistent memory to an agent | Yes | No |
 
-**Usage:**
-```
-/quickstart "customer sentiment analyzer"
-```
+## Available Skills
 
-**What it does:**
-- Asks for project name and use case
-- Runs `Daita init` to create project structure
-- Generates custom agent with relevant tools
-- Sets up test data and configuration
-- Runs first test to validate setup
-- Shows project status and next steps
+Skills are reusable prompts invoked standalone or from within commands:
 
-**Perfect for:** Starting new projects, creating POCs, onboarding new developers
-
----
-
-### `/ship` - Deploy to Production Safely
-Deploy your project to production with comprehensive safety checks and validation.
-
-**Usage:**
-```
-/ship
-```
-
-**What it does:**
-- Verifies you're in a Daita project
-- Runs `Daita test` to validate locally
-- Checks `Daita status` for configuration issues
-- Verifies Daita_API_KEY is set
-- Increments version in `Daita-project.yaml`
-- Runs `Daita push production`
-- Shows deployment status and webhook URLs
-- Provides monitoring commands
-
-**Perfect for:** Production deployments, version releases, CI/CD integration
-
----
-
-### `/debug-deployment` - Debug Production Issues
-Diagnose and fix production deployment issues with intelligent log analysis.
-
-**Usage:**
-```
-/debug-deployment "my agent is timing out"
-```
-
-**What it does:**
-- Fetches production logs via `Daita logs production`
-- Analyzes error messages and stack traces
-- Identifies root cause (missing keys, timeouts, import errors, etc.)
-- Suggests specific fixes
-- Can apply fixes and redeploy
-- Provides prevention advice
-
-**Perfect for:** Production debugging, error analysis, incident response
-
----
-
-### `/setup-webhook` - Configure Webhook Integrations
-Set up webhook integrations for external service triggers (GitHub, Slack, Stripe, etc.).
-
-**Usage:**
-```
-/setup-webhook github-push for my data_processor agent
-```
-
-**What it does:**
-- Asks which agent/workflow to trigger
-- Suggests field mapping based on service type
-- Updates `Daita-project.yaml` with webhook config
-- Deploys to production
-- Runs `Daita webhook list` to show webhook URL
-- Provides test curl command
-- Shows integration instructions for the service
-
-**Perfect for:** GitHub webhooks, Slack integrations, payment processing, custom APIs
-
-**Supported Services:**
-- GitHub (push, pull request, issues)
-- Slack (slash commands, events)
-- Stripe (payments, subscriptions)
-- Twilio (SMS, calls)
-- Custom webhooks
-
----
-
-### `/dev-loop` - Iterative Development Mode
-Run watch mode with intelligent error detection and auto-fixing.
-
-**Usage:**
-```
-/dev-loop
-```
-
-**What it does:**
-- Starts `Daita test --watch` in background
-- Monitors test output in real-time
-- Detects test failures automatically
-- Diagnoses errors and suggests fixes
-- Applies fixes when you approve
-- Waits for tests to re-run
-- Iterates until tests pass
-- Provides encouragement and progress updates
-
-**Perfect for:** Active development, debugging, learning Daita, pair programming
-
----
+| Skill | What it generates |
+|---|---|
+| `/agent-scaffold` | Complete agent file from a description |
+| `/tool-scaffold` | `@tool` function with docstring and error handling |
+| `/test-scaffold` | Full pytest test file for an agent |
 
 ## Installation
 
 ### Prerequisites
 
-1. **Install Daita CLI:**
-   ```bash
-   pip install Daita-agents
-   ```
-
-2. **Install Claude Code:**
-   - Get Claude Code from [claude.com/code](https://claude.com/code)
-   - Or use the Claude desktop app with code mode enabled
-
-### Install Commands
-
-**Option 1: Clone this repository**
 ```bash
-git clone https://github.com/your-org/Daita-claude-commands.git
-cd Daita-claude-commands
-cp -r .claude/commands ~/.claude/commands/Daita/
+pip install daita-agents       # Install Daita CLI
 ```
 
-**Option 2: Manual installation**
-1. Download the command files from this repository
-2. Copy them to your Claude Code commands directory:
-   - **macOS/Linux:** `~/.claude/commands/Daita/`
-   - **Windows:** `%USERPROFILE%\.claude\commands\Daita\`
+Get Claude Code: [claude.ai/claude-code](https://claude.ai/claude-code)
 
-**Option 3: Project-specific installation**
+### Option 1: Clone and use directly (recommended)
+
+When you open this repo in Claude Code, all commands and skills are available immediately — no copying needed.
+
+```bash
+git clone https://github.com/daita-tech/claude-code.git
+cd claude-code
+# Open in Claude Code — commands available right away
+```
+
+### Option 2: Install globally (use from any project)
+
+```bash
+git clone https://github.com/daita-tech/claude-code.git
+cp -r claude-code/.claude/commands/* ~/.claude/commands/
+cp -r claude-code/.claude/skills/* ~/.claude/skills/
+```
+
+### Option 3: Install per-project
+
 ```bash
 # In your Daita project directory
-mkdir -p .claude/commands
-cd .claude/commands
-curl -O https://raw.githubusercontent.com/your-org/Daita-claude-commands/main/.claude/commands/quickstart.md
-curl -O https://raw.githubusercontent.com/your-org/Daita-claude-commands/main/.claude/commands/ship.md
-curl -O https://raw.githubusercontent.com/your-org/Daita-claude-commands/main/.claude/commands/debug-deployment.md
-curl -O https://raw.githubusercontent.com/your-org/Daita-claude-commands/main/.claude/commands/setup-webhook.md
-curl -O https://raw.githubusercontent.com/your-org/Daita-claude-commands/main/.claude/commands/dev-loop.md
+mkdir -p .claude/commands .claude/skills
+cp -r /path/to/claude-code/.claude/commands/* .claude/commands/
+cp -r /path/to/claude-code/.claude/skills/* .claude/skills/
 ```
 
-### Verify Installation
+### Verify installation
 
-Open Claude Code and type `/` - you should see the Daita commands listed:
-- `/quickstart`
-- `/ship`
-- `/debug-deployment`
-- `/setup-webhook`
-- `/dev-loop`
+Open Claude Code and type `/` — you should see the Daita commands listed.
 
 ## Quick Start Examples
 
-### Example 1: Create and Deploy a New Agent
+### Start a new project
 
-```bash
-# Start a new project
-/quickstart "fraud detection for payments"
+```
+/quickstart "fraud detection agent for payment transactions"
+```
 
-# Claude creates project, generates agent with fraud detection tools, runs tests
+Claude will ask about your LLM provider preference, scaffold a project with relevant tools, set up test data, and run the first test.
 
-# Make some customizations to the agent
-# ... edit code ...
+### Deploy to production
 
-# Deploy to production
+```
 /ship
-
-# Claude runs tests, increments version, deploys, shows webhook URLs
 ```
 
-### Example 2: Add Webhook to Existing Project
+Claude runs tests, checks API keys, increments the version, deploys, and shows webhook URLs and monitoring commands.
 
-```bash
-# Navigate to your project
-cd my-Daita-project
+### Add a database
 
-# Set up a webhook for GitHub push events
-/setup-webhook github-push for payment_processor
-
-# Claude configures webhook, deploys, provides webhook URL and integration instructions
+```
+/add-plugin "connect my agent to PostgreSQL"
 ```
 
-### Example 3: Debug Production Issue
+Claude adds the PostgreSQLPlugin, writes tools to query it, updates your `.env`, and tests the connection.
 
-```bash
-# Something's failing in production
-/debug-deployment "agent returning empty results"
+### Debug a production issue
 
-# Claude fetches logs, identifies missing API key, suggests fix
-# You approve, Claude adds key to .env and redeploys
+```
+/debug-deployment "agent returning empty results since this morning"
 ```
 
-### Example 4: Active Development with Watch Mode
+Claude fetches logs, traces the execution, identifies the root cause, proposes a fix, and redeploys.
 
-```bash
-# Working on a new feature
-/dev-loop
+### Set up a GitHub webhook
 
-# Claude starts watch mode
-# You make code changes
-# Tests fail - Claude suggests fix
-# You approve - Claude applies fix
-# Tests pass - Claude waits for next change
-# Ctrl+C when done
 ```
+/setup-webhook github push events for my code_reviewer agent
+```
+
+Claude configures the field mapping in `daita-project.yaml`, deploys, and gives you the webhook URL and GitHub setup instructions.
+
+### Switch to Claude for better reasoning
+
+```
+/add-provider "switch to Anthropic for my analyst agent"
+```
+
+Claude updates the agent to use `claude-3-5-sonnet`, checks your API key, and tests the change.
+
+### Build a multi-agent pipeline
+
+```
+/create-workflow "researcher agent feeds into a writer agent"
+```
+
+Claude designs the pipeline, scaffolds both agents, wires up the Workflow connections, and tests it end to end.
 
 ## Environment Setup
 
-These commands work best when you have:
-
-### Local Development (Free)
 ```bash
-# LLM API key for agent execution
+# LLM providers — add whichever you use
 export OPENAI_API_KEY='sk-...'
-# or
 export ANTHROPIC_API_KEY='sk-ant-...'
+export GEMINI_API_KEY='...'
+
+# Required for cloud deployment
+export DAITA_API_KEY='daita-...'    # Get from daita-tech.io
 ```
 
-### Cloud Deployment (Requires Daita_API_KEY)
-```bash
-# Get your API key from Daita-tech.io
-export Daita_API_KEY='Daita-...'
-```
-
-You can also store these in a `.env` file in your project root.
-
-## Command Reference Table
-
-| Command | Requires Project | Requires Daita_API_KEY | Time to Complete |
-|---------|------------------|------------------------|------------------|
-| `/quickstart` | No | No | 30-60 seconds |
-| `/ship` | Yes | Yes | 1-3 minutes |
-| `/debug-deployment` | Yes | Yes | 1-5 minutes |
-| `/setup-webhook` | Yes | Yes | 1-2 minutes |
-| `/dev-loop` | Yes | No (for local) | Ongoing |
-
-## Tips for Best Results
-
-### For `/quickstart`
-- Be specific about your use case: "sentiment analysis for customer reviews" vs just "analyzer"
-- Mention any specific integrations you need: "with PostgreSQL" or "using Stripe API"
-- Claude will generate better tools and test data with more context
-
-### For `/ship`
-- Always run from your project root directory
-- Let Claude increment the version (it suggests patch/minor/major)
-- Review the deployment summary before proceeding
-
-### For `/debug-deployment`
-- Describe symptoms specifically: "timeouts after 2 minutes" vs "not working"
-- Mention when it started: "after recent deployment" helps narrow down issues
-- Let Claude reproduce locally when possible
-
-### For `/setup-webhook`
-- Know which service you're integrating (GitHub, Slack, etc.)
-- Claude provides field mapping templates for common services
-- Test with the provided curl command before connecting real services
-
-### For `/dev-loop`
-- Focus on one agent/workflow at a time
-- Let Claude fix one issue at a time (don't rush)
-- Use this for learning - Claude explains what it's doing
+Or add these to a `.env` file in your project root.
 
 ## Troubleshooting
 
-### "Command not found"
-- Verify files are in the correct `.claude/commands/` directory
-- Restart Claude Code
-- Check file permissions (should be readable)
+**"Command not found"** — Verify files are in `.claude/commands/`. Restart Claude Code.
 
-### "Not in a Daita project"
-- Run `Daita init` first, or navigate to existing project
-- Verify `Daita-project.yaml` exists
+**"Not in a Daita project"** — Run `daita init` first, or navigate to your project directory.
 
-### "Daita_API_KEY not found"
-- Get API key from [Daita-tech.io](https://Daita-tech.io)
-- Set environment variable: `export Daita_API_KEY='your-key'`
-- Or add to `.env` file
+**"DAITA_API_KEY not found"** — Get your key at daita-tech.io and run `export DAITA_API_KEY='daita-...'`.
 
-### Commands are slow
-- Normal for first run (Claude analyzes project)
-- Subsequent runs are faster with context
-- `/dev-loop` stays fast since it's watching continuously
+**Tests are slow on first run** — Claude is reading your project structure. Subsequent runs in the same session are faster.
 
-### Deployment fails
-- Check `Daita test` passes locally first
-- Verify all API keys are in `.env` file
-- Review `Daita-project.yaml` for configuration issues
-- Use `/debug-deployment` for detailed diagnosis
+## Resources
 
-## Community
-
-- **Daita Documentation**: [docs.Daita-tech.io](https://docs.Daita-tech.io)
-- **Claude Code Docs**: [claude.com/code/docs](https://claude.com/code/docs)
+- **Daita Documentation**: [docs.daita-tech.io](https://docs.daita-tech.io)
+- **Claude Code Docs**: [claude.ai/claude-code](https://claude.ai/claude-code)
+- **Issues**: [github.com/daita-tech/claude-code/issues](https://github.com/daita-tech/claude-code/issues)
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) file for details
-
-## Acknowledgments
-
-Built with:
-- [Claude Code](https://claude.com/code) by Anthropic
-
----
-
-Get started: `Daita init my-project` or `/quickstart "your use case"`
+Apache 2.0 — see [LICENSE](LICENSE)
